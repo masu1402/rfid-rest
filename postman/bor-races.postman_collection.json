@@ -1,0 +1,266 @@
+{
+	"variables": [],
+	"info": {
+		"name": "bor-races",
+		"_postman_id": "c4872072-47c8-c099-d56f-00a88d3a4280",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all races (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/{{old_cid}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read race (Not found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Race created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new race\", postman.getResponseHeader(\"Location\"));",
+							"//postman.setGlobalVariable(\"variable_key\", \"variable_value\");",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/?name=Bergeforsen Obstacle Race&length=5&start=2017-06-12T08:00:00.363Z",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2 + 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all races (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read created race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Race updated\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}?length=7",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": "Update created race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Another race created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new race 2\", postman.getResponseHeader(\"Location\"));",
+							"//postman.setGlobalVariable(\"variable_key\", \"variable_value\");",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/{{old_cid}}?name=Kravallen&length=3&start=2017-05-09T12:13:00.811Z",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": "Create new race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 9",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Race updated\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race 2}}?finish=2017-07-09T12:13:00.811Z",
+				"method": "PATCH",
+				"header": [],
+				"body": {},
+				"description": "Update new race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/{{old_cid}}?start=2017-05-09T12:13:00.811Z",
+				"method": "PATCH",
+				"header": [],
+				"body": {},
+				"description": "Update race (Not found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 11",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Race deleted\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race 2}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Remove race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 12",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Race not found for deletion\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race 2}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Remove race (Not found)"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "bor-rest",
+  "version": "1.0.0",
+  "description": "Centralized RESTful server solution for Bergeforsen Obstacle Race and events alike",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "http-auth": "^3.1.3",
+    "mongoose": "^4.9.6",
+    "morgan": "^1.8.1",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Mattias Sundling",
+  "license": "ISC"
+}

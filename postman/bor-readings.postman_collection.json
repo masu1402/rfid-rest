@@ -1,0 +1,290 @@
+{
+	"variables": [],
+	"info": {
+		"name": "bor-readings",
+		"_postman_id": "ff7465db-8b6b-b899-dc1d-99fdb5902074",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a race",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Race created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new race\", postman.getResponseHeader(\"Location\"));",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/?name=Bergeforsen Obstacle Race&length=5&start=2017-06-12T08:00:00.363Z",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Create a competitor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new competitor\", postman.getResponseHeader(\"Location\"));",
+							"",
+							"var _id = postman.getResponseHeader(\"Location\").split(\"/\");",
+							"postman.setEnvironmentVariable(\"new competitor -path\", _id[3]);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/?name=Jonathan%20Ellström&rfid={{rfid 3}}",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all readings of competitor in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read one reading of competitor in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Add competitor to race",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{new competitor -path}}",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Test 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all readings of competitor in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read one reading of competitor in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/1/?time=2017-06-12T08:00:00.363Z",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create a new reading (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all readings of competitor in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read one reading of competitor in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Delete all readings with race identifier (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 9",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{rfid 3}}/readings/1",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Delete all readings with node and race identifier (Success)"
+			},
+			"response": []
+		}
+	]
+}

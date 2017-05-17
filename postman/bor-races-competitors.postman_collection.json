@@ -1,0 +1,333 @@
+{
+	"variables": [],
+	"info": {
+		"name": "bor-races-competitors",
+		"_postman_id": "8a9c5088-e536-807e-beee-0c5c481bac96",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a race",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Race created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new race\", postman.getResponseHeader(\"Location\"));",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/?name=Bergeforsen Obstacle Race&length=5&start=2017-06-12T08:00:00.363Z",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Create a competitor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new competitor\", postman.getResponseHeader(\"Location\"));",
+							"",
+							"var _id = postman.getResponseHeader(\"Location\").split(\"/\");",
+							"postman.setEnvironmentVariable(\"new competitor -path\", _id[3]);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/?name=Jonathan%20Ellström&rfid=ff:3f:6f:83",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all competitors in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/{{old_cid}}/competitors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all competitors in  non-existing race (Not Found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{new competitor -path}}",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Add competitor to race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/{{old_cid}}/competitors/{{new competitor -path}}",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Add competitor to race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 9",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{old_cid}}",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Add competitor to race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all competitors in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{new competitor -path}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read a competitor in race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/{{old_cid}}/competitors/{{new competitor -path}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read a competitor in race (Race Not Found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{old_cid}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read a competitor in race (Race Not Found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{new competitor -path}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Remove a competitor from race (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 11",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/races/{{old_cid}}/competitors/{{new competitor -path}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Remove a competitor from race (Not Found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 12",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new race}}/competitors/{{old_cid}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Remove a competitor from race (Not Found)"
+			},
+			"response": []
+		}
+	]
+}

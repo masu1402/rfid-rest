@@ -1,0 +1,350 @@
+{
+	"variables": [],
+	"info": {
+		"name": "bor-competitors",
+		"_postman_id": "1f8b5725-7197-ef06-5a3a-8353035bb641",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all competitors (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/{{old_cid}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read competitor (Not found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new competitor\", postman.getResponseHeader(\"Location\"));",
+							"",
+							"var _id = postman.getResponseHeader(\"Location\").split(\"/\");",
+							"postman.setEnvironmentVariable(\"new competitor -path\", _id[3]);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/?rfid=d5:1f:ae:75&name=Martin%20Karttunen&nickname=Martkart&company=Mittuniversitetet&sponsors=Grönborg%20på%20Hörnet&sponsors=Miun%20Innovation",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read all competitors (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 3 + 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Response Header is json/application\"] =  postman.getResponseHeader(\"Content-Type\").has(\"application/json\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new competitor}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Read created competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Successful conflict\"] = responseCode.code === 409;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/?rfid=d5:1f:ae:75&name=Martin%20Karttunen&nickname=Martkart&company=Mittuniversitetet&sponsors=Grönborg%20på%20Hörnet&sponsors=Miun%20Innovation",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new competitor (Conflict)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new competitor 2\", postman.getResponseHeader(\"Location\"));",
+							"",
+							"var _id = postman.getResponseHeader(\"Location\").split(\"/\");",
+							"postman.setEnvironmentVariable(\"new competitor 2 -path\", _id[3]);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/?name=Mats%20Sundhagen&company=Mittuniversitetet&sponsors=Grönborg%20på%20Hörnet&sponsors=Miun%20Innovation",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": "Create new competitor (Success -rfid)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 9",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor updated\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new competitor}}?sponsors=Grönborg%20på%20Hörnet",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": "Update created competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor created\"] = responseCode.code === 201;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new competitor 3\", postman.getResponseHeader(\"Location\"));",
+							"",
+							"var _id = postman.getResponseHeader(\"Location\").split(\"/\");",
+							"postman.setEnvironmentVariable(\"new competitor 3 -path\", _id[3]);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/{{old_cid}}?name=Jonathan%20Ellström&rfid=80:9b:6f:85",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": "Create new competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 11",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Successful conflict\"] = responseCode.code === 409;",
+							"",
+							"if(responseCode.code === 201) {",
+							"postman.setEnvironmentVariable(\"new competitor 3\", postman.getResponseHeader(\"Location\"));",
+							"",
+							"var _id = postman.getResponseHeader(\"Location\").split(\"/\");",
+							"postman.setEnvironmentVariable(\"new competitor 3 -path\", _id[3]);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/{{old_cid}}?name=Jonathan%20Ellström&rfid=80:9b:6f:85",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": "Create new competitor (Conflict)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 12",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor updated\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new competitor 3}}?company=Knowit",
+				"method": "PATCH",
+				"header": [],
+				"body": {},
+				"description": "Update new competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 13",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/competitors/{{old_cid}}?company=Knowit",
+				"method": "PATCH",
+				"header": [],
+				"body": {},
+				"description": "Update new competitor (Not found)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 14",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor deleted\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new competitor 2}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Remove new competitor (Success)"
+			},
+			"response": []
+		},
+		{
+			"name": "Test 15",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Competitor not found for deletion\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}{{new competitor 2}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Remove competitor (Not found)"
+			},
+			"response": []
+		}
+	]
+}
