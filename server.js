@@ -41,7 +41,7 @@ var digest = auth.digest(config.digest);
 // middleware ======================================================= middleware
 app.use(morgan('dev')); // remove when in production
 app.use(bodyparser.json());
-//app.use("/api", auth.connect(digest));
+app.use("/api", auth.connect(digest));
 
 
 // routes =============================================================== routes
