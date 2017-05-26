@@ -55,19 +55,3 @@ app.use("/api/races/:_id/competitors/:rfid/readings", readings);
 app.listen(config.server.port, config.server.host, function() {
     console.log("server listening on port " + config.server.port);
 })
-
-db.createUser({
-    user: "superuser",
-    pwd: "anypwd",
-    roles: [ { role: "root", db: "admin" } ]
-});
-
-use bor;
-db.createUser({
-    user: "node",
-    pwd: "anypwd",
-    roles: [ { role: "readWrite", db: "bor" } ]
-});
-
-/* authenticate user */
-mongo -u "sudo" -p "bor" --authenticationDatabase "admin”
