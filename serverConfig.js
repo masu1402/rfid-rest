@@ -13,10 +13,10 @@ var serverConfig = {
     database: {
         host:   "localhost",
         port: "27017",
-        db: "bor",
+        db: "",
         options:{
-            user: "bor-cloud",
-            pass: "auroraaustralis"   
+            user: "",
+            pass: ""
         }
     },
     // runtime configurations =========================== runtime configurations
@@ -31,24 +31,3 @@ var serverConfig = {
     }
 };
 module.exports = serverConfig;
-
-// other quick to copy commands ================================================
-
-// * authenticate user
-// mongo -u "sudo" -p "bor" --authenticationDatabase "admin”
-// * check file sizes in cloud9
-// du-c9 | sort -h
-
-/* create user
-db.createUser({
-    user: "bor-cloud",
-    pwd: "auroraaustralis",
-    roles: [ { 
-      role: "readWrite",
-      db: "bor"
-    } ]
-});
-*/
-
-// sudo rm -rf /home/ubuntu/workspace/api/doc
-// sudo apidoc -i /home/ubuntu/workspace/ -o /home/ubuntu/workspace/api/doc -e /home/ubuntu/workspace/node_modules/ -e /home/ubuntu/workspace/data/ -e /home/ubuntu/workspace/.c9/
