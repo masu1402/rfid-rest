@@ -2,22 +2,39 @@
 For the Bergeforsen Obstacle Race prototype Cloud9 was used. Setting up the Node.js server in the cloud based environment is even easier than setting up the Raspberry Pi environment.
 # Node.js
 Usually in Cloud9 a version of Node is already installed. Run node -v to check which. If you need a newer installation of Node, run:
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
-sudo apt-get install -y nodejs
+`curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+sudo apt-get install -y nodejs`
 ## Node Modules
 Download the project from GitHub: https://github.com/masu1402/rfid-rest.git. You can use the git-clone function or Cloud9’s own clone function.
 When downloaded and inside the main directory for the project, just run npm install and all node modules needed will be installed. You can now use node server.js to run the server, but are still missing some major parts needed to be configured.
 ## Install MongoDB database
 To install latest MongoDB on Ubuntu(which is the virtual OS that you receive in Cloud9) you can follow the instructions in https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
 When you’ve installed the database, create a script by running commands:
-mkdir data
+`mkdir data
 echo ‘mongod --nojournal --bind_ip=localhost --dbpath=/home/ubuntu/workspace/database/’ > mongod
-chmod a+x mongod
+chmod a+x mongod`
 ## Security
 MongoDB doesn’t come with any authentication upon start and you need to create user accounts yourself to make your database safer. Follow this guide to create a superuser. Then activate the authentication by default by configuring (case 1) the mongodb.conf file or (case 2) the mongod file you created during. All you need to do is follow these steps (case 2):
 Open a terminal and run the mongod script by entering ./mongod
 Open a new terminal window and enter mongodb by entering mongo
 Change database to admin by entering use admin and follow with the command in snippet 1.
+### Snippet 1
+```javascript
+db.createUser({
+	user: "superuser",
+	pwd: "anypwd",
+	roles: [ { role: "root", db: "admin" } ]
+});
+```
+### Snippet 2
+```javascript
+use bor;
+db.createUser({
+	user: "node",
+	pwd: "anypwd",
+	roles: [ { role: "readWrite", db: "bor" } ]
+});
+```
 
 Now, close MongoDB in this terminal by entering Ctrl + C
 Now, I change the script file created under “Install MongoDB database”. Just add --auth as option parameter.
